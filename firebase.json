@@ -1,0 +1,27 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "campus-care-a75c7",
+          "appId": "1:65469327808:android:e8e22e374eab61f1d38025",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "campus-care-a75c7",
+          "configurations": {
+            "android": "1:65469327808:android:e8e22e374eab61f1d38025"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firebase/firestore.rules"
+  },
+  "storage": {
+    "rules": "firebase/storage.rules"
+  }
+}

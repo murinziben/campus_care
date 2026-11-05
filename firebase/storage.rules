@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// Incident photos live at incident_photos/{uid}/{file}.jpg
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function verifiedAlu() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.matches('.*@(alustudent|alueducation)[.]com');
+    }
+
+    function isStaff() {
+      return verifiedAlu()
+        && firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.role == 'staff';
+    }
+
+    match /incident_photos/{uid}/{fileName} {
+      // Any verified ALU user may view photos attached to reports.
+      allow read: if verifiedAlu();
+
+      // Only the owner uploads into their own folder: images under 5 MB.
+      allow create, update: if verifiedAlu()
+        && request.auth.uid == uid
+        && request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+
+      // Owner can remove their photo; staff can remove it with a deleted report.
+      allow delete: if verifiedAlu() && (request.auth.uid == uid || isStaff());
+    }
+  }
+}

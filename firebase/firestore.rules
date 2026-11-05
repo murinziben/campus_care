@@ -1,0 +1,137 @@
+rules_version = '2';
+
+// CampusCare Firestore security rules.
+//
+// Principles
+//  - Only signed-in users with a VERIFIED ALU email can touch any data.
+//  - Roles live in users/{uid}.role. Users can never change their own role;
+//    promoting someone to "staff" is done by an admin in the Firebase Console.
+//  - Students may create reports, and edit/delete their own report only while
+//    it is still "submitted". Only staff may change status or add staff notes.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ---------- helpers ----------
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Verified email on an ALU domain (client checks are not trusted).
+    function verifiedAlu() {
+      return signedIn()
+        && request.auth.token.email_verified == true
+        && request.auth.token.email.matches('.*@(alustudent|alueducation)[.]com');
+    }
+
+    function profile(uid) {
+      return get(/databases/$(database)/documents/users/$(uid)).data;
+    }
+
+    function isStaff() {
+      return verifiedAlu()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && profile(request.auth.uid).role == 'staff';
+    }
+
+    function isOwner(data) {
+      return signedIn() && data.reporterId == request.auth.uid;
+    }
+
+    // Which top-level fields differ between the stored and incoming document.
+    function changedKeys() {
+      return request.resource.data.diff(resource.data).affectedKeys();
+    }
+
+    // ---------- users ----------
+    match /users/{uid} {
+      // A user reads their own profile; staff may read any (to contact reporters).
+      allow read: if signedIn() && (request.auth.uid == uid || isStaff());
+
+      // Self-registration: always a student, email must match the auth token.
+      allow create: if signedIn()
+        && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(
+             ['uid', 'email', 'displayName', 'role', 'createdAt'])
+        && request.resource.data.role == 'student'
+        && request.resource.data.uid == uid
+        && request.resource.data.email == request.auth.token.email
+        && request.auth.token.email.matches('.*@(alustudent|alueducation)[.]com');
+
+      // Only harmless fields can change - never `role`, `email` or `uid`.
+      allow update: if signedIn()
+        && request.auth.uid == uid
+        && changedKeys().hasOnly(['displayName', 'lastSeenUpdates']);
+
+      allow delete: if false;
+    }
+
+    // ---------- incidents ----------
+    match /incidents/{incidentId} {
+
+      // Every verified ALU user can browse reports (transparency, avoids
+      // duplicate reports). The app only shows reporter names to owner/staff.
+      allow read: if verifiedAlu();
+
+      allow create: if verifiedAlu()
+        && isOwner(request.resource.data)
+        && request.resource.data.keys().hasOnly([
+             'title', 'description', 'category', 'building', 'room', 'status',
+             'isUrgent', 'photoUrl', 'photoPath', 'reporterId', 'reporterName',
+             'createdAt', 'updatedAt'])
+        && request.resource.data.status == 'submitted'
+        && request.resource.data.title is string
+        && request.resource.data.title.size() >= 5
+        && request.resource.data.title.size() <= 80
+        && request.resource.data.description is string
+        && request.resource.data.description.size() >= 20
+        && request.resource.data.description.size() <= 1000
+        && request.resource.data.category in
+             ['facilities', 'water', 'electricity', 'safety', 'sanitation', 'other']
+        && request.resource.data.building is string
+        && request.resource.data.building.size() > 0
+        && request.resource.data.isUrgent is bool
+        && request.resource.data.createdAt == request.time;
+
+      allow update: if verifiedAlu() && (
+        // Student editing their own report before staff pick it up.
+        (isOwner(resource.data)
+          && resource.data.status == 'submitted'
+          && changedKeys().hasOnly([
+               'title', 'description', 'category', 'building', 'room',
+               'isUrgent', 'photoUrl', 'photoPath', 'updatedAt'])
+          && request.resource.data.title.size() >= 5
+          && request.resource.data.title.size() <= 80
+          && request.resource.data.description.size() >= 20
+          && request.resource.data.description.size() <= 1000)
+        ||
+        // Staff changing status / leaving a note - nothing else.
+        (isStaff()
+          && changedKeys().hasOnly(
+               ['status', 'staffNote', 'updatedBy', 'updatedAt'])
+          && request.resource.data.status in
+               ['submitted', 'in_progress', 'resolved']
+          && request.resource.data.updatedBy == request.auth.uid
+          && request.resource.data.staffNote.size() <= 500)
+      );
+
+      // Owners may withdraw a not-yet-handled report; staff may remove spam.
+      allow delete: if verifiedAlu() && (
+        (isOwner(resource.data) && resource.data.status == 'submitted')
+        || isStaff()
+      );
+
+      // Status history (timeline). Written only by staff, in the same batch
+      // as the status change.
+      match /updates/{updateId} {
+        allow read: if verifiedAlu();
+        allow create: if isStaff()
+          && request.resource.data.keys().hasOnly(
+               ['status', 'note', 'staffId', 'staffName', 'createdAt'])
+          && request.resource.data.staffId == request.auth.uid
+          && request.resource.data.createdAt == request.time;
+        allow update: if false;
+        allow delete: if isStaff();
+      }
+    }
+  }
+}
