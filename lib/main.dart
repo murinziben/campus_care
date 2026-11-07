@@ -14,6 +14,6 @@ Future<void> main() async {
   runApp(CampusCareApp(
     authRepository: FirebaseAuthRepository(),
     incidentRepository: FirestoreIncidentRepository(),
-    storageRepository: FirebaseStorageRepository(),
+    storageRepository: CloudinaryStorageRepository(),
   ));
 }
