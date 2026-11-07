@@ -49,27 +49,37 @@ enum IncidentStatus {
 }
 
 enum IncidentCategory {
-  facilities('facilities', 'Facilities', Icons.apartment_rounded,
-      AppColors.forest, AppColors.lightGreen),
-  water('water', 'Water', Icons.water_drop_outlined, AppColors.sky,
-      AppColors.sky50),
-  electricity('electricity', 'Electricity', Icons.bolt_rounded,
-      AppColors.warmOrange, AppColors.amber50),
-  safety('safety', 'Safety', Icons.shield_outlined, AppColors.red,
-      AppColors.red50),
-  sanitation('sanitation', 'Sanitation', Icons.delete_outline_rounded,
-      AppColors.green, AppColors.green50),
-  other('other', 'Other', Icons.more_horiz_rounded, AppColors.slate700,
-      AppColors.slate100);
+  facilities('facilities', 'Facilities', Icons.apartment_rounded),
+  water('water', 'Water', Icons.water_drop_outlined),
+  electricity('electricity', 'Electricity', Icons.bolt_rounded),
+  safety('safety', 'Safety', Icons.shield_outlined),
+  sanitation('sanitation', 'Sanitation', Icons.delete_outline_rounded),
+  other('other', 'Other', Icons.more_horiz_rounded);
 
-  const IncidentCategory(
-      this.value, this.label, this.icon, this.color, this.background);
+  const IncidentCategory(this.value, this.label, this.icon);
 
   final String value;
   final String label;
   final IconData icon;
-  final Color color;
-  final Color background;
+
+  /// Accent colour (follows the active light/dark palette).
+  Color get color => switch (this) {
+        IncidentCategory.facilities => AppColors.forest,
+        IncidentCategory.water => AppColors.sky,
+        IncidentCategory.electricity => AppColors.warmOrange,
+        IncidentCategory.safety => AppColors.red,
+        IncidentCategory.sanitation => AppColors.green,
+        IncidentCategory.other => AppColors.slate700,
+      };
+
+  Color get background => switch (this) {
+        IncidentCategory.facilities => AppColors.lightGreen,
+        IncidentCategory.water => AppColors.sky50,
+        IncidentCategory.electricity => AppColors.amber50,
+        IncidentCategory.safety => AppColors.red50,
+        IncidentCategory.sanitation => AppColors.green50,
+        IncidentCategory.other => AppColors.slate100,
+      };
 
   static IncidentCategory parse(String? raw) =>
       IncidentCategory.values.firstWhere(
