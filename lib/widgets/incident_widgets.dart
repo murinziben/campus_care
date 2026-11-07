@@ -40,7 +40,7 @@ class UrgentBadge extends StatelessWidget {
         color: AppColors.red50,
         borderRadius: BorderRadius.circular(99),
       ),
-      child: const Text(
+      child: Text(
         'Urgent',
         style: TextStyle(
           color: AppColors.red,
@@ -88,7 +88,7 @@ class IncidentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: AppColors.surface,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
@@ -137,7 +137,7 @@ class IncidentCard extends StatelessWidget {
                     Text(
                       '${incident.category.label}  •  '
                       '${Formatters.friendlyDate(incident.createdAt)}',
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontSize: 11.5, color: AppColors.slate400),
                     ),
                     if (staffView) ...[
@@ -147,7 +147,7 @@ class IncidentCard extends StatelessWidget {
                           StatusBadge(status: incident.status),
                           const SizedBox(width: 8),
                           Text('#${incident.shortId}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                   fontSize: 11.5, color: AppColors.slate500)),
                         ],
                       ),
@@ -218,7 +218,7 @@ class _CategoryTile extends StatelessWidget {
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 150),
           decoration: BoxDecoration(
-            color: selected ? AppColors.lightGreen : Colors.white,
+            color: selected ? AppColors.lightGreen : AppColors.surface,
             borderRadius: BorderRadius.circular(AppRadius.card),
             border: Border.all(
               color: selected ? AppColors.forest : AppColors.slate200,
@@ -242,7 +242,7 @@ class _CategoryTile extends StatelessWidget {
                         fontSize: 12.5,
                         fontWeight: FontWeight.w700,
                         color: selected
-                            ? AppColors.deepGreen
+                            ? AppColors.slate950
                             : AppColors.slate700,
                       ),
                     ),
@@ -250,14 +250,14 @@ class _CategoryTile extends StatelessWidget {
                 ),
               ),
               if (selected)
-                const Positioned(
+                Positioned(
                   top: 6,
                   right: 6,
                   child: CircleAvatar(
                     radius: 9,
                     backgroundColor: AppColors.forest,
                     child: Icon(Icons.check_rounded,
-                        size: 12, color: Colors.white),
+                        size: 12, color: AppColors.ink),
                   ),
                 ),
             ],
@@ -336,7 +336,7 @@ class _TimelineStep extends StatelessWidget {
                   width: 26,
                   height: 26,
                   decoration: BoxDecoration(
-                    color: done ? color : Colors.white,
+                    color: done ? color : AppColors.surface,
                     shape: BoxShape.circle,
                     border: Border.all(color: color, width: 2),
                     boxShadow: isCurrent
@@ -350,13 +350,13 @@ class _TimelineStep extends StatelessWidget {
                   ),
                   child: Center(
                     child: done && !isCurrent
-                        ? const Icon(Icons.check, size: 14, color: Colors.white)
+                        ? Icon(Icons.check, size: 14, color: AppColors.ink)
                         : Text(
                             '${index + 1}',
                             style: TextStyle(
                               fontSize: 11,
                               fontWeight: FontWeight.w800,
-                              color: done ? Colors.white : AppColors.slate400,
+                              color: done ? AppColors.ink : AppColors.slate400,
                             ),
                           ),
                   ),
@@ -431,11 +431,11 @@ class IncidentPhoto extends StatelessWidget {
                 fit: BoxFit.cover,
                 loadingBuilder: (context, child, progress) => progress == null
                     ? child
-                    : const ColoredBox(
+                    : ColoredBox(
                         color: AppColors.slate100,
                         child: Center(child: CircularProgressIndicator()),
                       ),
-                errorBuilder: (_, _, _) => const ColoredBox(
+                errorBuilder: (_, _, _) => ColoredBox(
                   color: AppColors.slate100,
                   child: Center(
                     child: Icon(Icons.broken_image_outlined,

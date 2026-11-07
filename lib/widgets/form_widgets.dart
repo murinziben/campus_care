@@ -56,7 +56,7 @@ class _AppTextFieldState extends State<AppTextField> {
             Text(widget.label, style: AppText.label),
             if (widget.optional) ...[
               const SizedBox(width: 6),
-              const Text('Optional',
+              Text('Optional',
                   style: TextStyle(
                       fontSize: 11,
                       color: AppColors.slate400,
@@ -123,11 +123,11 @@ class PrimaryButton extends StatelessWidget {
     return FilledButton(
       onPressed: loading ? null : onPressed,
       child: loading
-          ? const SizedBox(
+          ? SizedBox(
               width: 20,
               height: 20,
               child: CircularProgressIndicator(
-                  strokeWidth: 2.4, color: Colors.white),
+                  strokeWidth: 2.4, color: AppColors.ink),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +165,7 @@ class SecondaryButton extends StatelessWidget {
         minimumSize: const Size.fromHeight(50),
         foregroundColor: AppColors.forest,
         backgroundColor: AppColors.lightGreen,
-        side: const BorderSide(color: AppColors.softGreen),
+        side: BorderSide(color: AppColors.softGreen),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(13)),
         textStyle: const TextStyle(fontWeight: FontWeight.w700),
       ),

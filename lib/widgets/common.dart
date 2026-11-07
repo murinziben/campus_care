@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../core/formatters.dart';
 import '../core/theme.dart';
+import '../core/app_images.dart';
+import 'app_photo.dart';
 import 'campus_illustration.dart';
 
 /// Green rounded mark with a building + leaf, followed by the app name.
@@ -30,12 +32,12 @@ class LogoLockup extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               Icon(Icons.apartment_rounded,
-                  color: Colors.white, size: compact ? 17 : 24),
+                  color: AppColors.ink, size: compact ? 17 : 24),
               Positioned(
                 right: compact ? 3 : 5,
                 top: compact ? 2 : 4,
                 child: Icon(Icons.eco_rounded,
-                    color: AppColors.warmOrange, size: compact ? 9 : 13),
+                    color: AppColors.deepGreen, size: compact ? 9 : 13),
               ),
             ],
           ),
@@ -51,11 +53,11 @@ class LogoLockup extends StatelessWidget {
                 fontSize: compact ? 15 : 22,
                 fontWeight: FontWeight.w800,
                 letterSpacing: -0.5,
-                color: AppColors.deepGreen,
+                color: AppColors.slate950,
               ),
             ),
             if (tagline)
-              const Text('A Better Campus Together',
+              Text('A Better Campus Together',
                   style: TextStyle(fontSize: 11.5, color: AppColors.slate500)),
           ],
         ),
@@ -76,47 +78,80 @@ class BrandHeader extends StatelessWidget {
     return Container(
       height: height,
       width: double.infinity,
+      clipBehavior: Clip.antiAlias,
       decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.softGreen, AppColors.offWhite],
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(36),
           bottomRight: Radius.circular(36),
         ),
       ),
-      child: SafeArea(
-        bottom: false,
-        child: Stack(
-          children: [
-            Positioned(
-              right: 8,
-              bottom: 0,
-              child: CampusIllustration(
-                  width: height * 1.05, height: height * 0.75, onDark: false),
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          AppPhoto(
+            asset: AppImages.authHeader,
+            overlay: const DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [Color(0x66131321), Color(0x33131321)],
+                ),
+              ),
             ),
-            Padding(
+            fallback: Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.softGreen, AppColors.offWhite],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                ),
+              ),
+              child: Align(
+                alignment: Alignment.bottomRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8),
+                  child: CampusIllustration(
+                      width: height * 1.05,
+                      height: height * 0.75,
+                      onDark: false),
+                ),
+              ),
+            ),
+          ),
+          SafeArea(
+            bottom: false,
+            child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (showBack)
-                    IconButton(
-                      onPressed: () => Navigator.of(context).maybePop(),
-                      icon: const Icon(Icons.arrow_back_rounded),
-                      padding: EdgeInsets.zero,
-                      alignment: Alignment.centerLeft,
-                      constraints: const BoxConstraints(),
+                    Material(
+                      color: AppColors.surface,
+                      shape: const CircleBorder(),
+                      child: IconButton(
+                        onPressed: () => Navigator.of(context).maybePop(),
+                        icon: const Icon(Icons.arrow_back_rounded, size: 20),
+                        visualDensity: VisualDensity.compact,
+                      ),
                     ),
                   const SizedBox(height: 10),
-                  const LogoLockup(tagline: true),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(18),
+                      boxShadow: AppShadows.card,
+                    ),
+                    child: const LogoLockup(tagline: true),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -343,7 +378,7 @@ class SurfaceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.white,
+      color: AppColors.surface,
       borderRadius: BorderRadius.circular(18),
       child: InkWell(
         borderRadius: BorderRadius.circular(18),
