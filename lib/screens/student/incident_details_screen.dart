@@ -87,7 +87,7 @@ class IncidentDetailsScreen extends StatelessWidget {
           ],
           if (isOwner && !incident.isEditableByOwner) ...[
             const SizedBox(height: 16),
-            const Text(
+            Text(
               'This report is being handled by staff, so it can no longer be '
               'edited or deleted.',
               style: AppText.muted,

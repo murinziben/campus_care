@@ -126,7 +126,7 @@ class _UpdateTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(Formatters.friendlyDate(incident.updatedAt),
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 11.5, color: AppColors.slate400)),
               ],
             ),
@@ -136,7 +136,7 @@ class _UpdateTile extends StatelessWidget {
               width: 9,
               height: 9,
               margin: const EdgeInsets.only(top: 6),
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                   color: AppColors.forest, shape: BoxShape.circle),
             ),
         ],

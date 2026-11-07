@@ -28,17 +28,17 @@ class ReportSuccessScreen extends StatelessWidget {
               Container(
                 width: 88,
                 height: 88,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                     color: AppColors.green50, shape: BoxShape.circle),
-                child: const Icon(Icons.check_rounded,
+                child: Icon(Icons.check_rounded,
                     size: 48, color: AppColors.green),
               ),
               const SizedBox(height: 22),
-              const Text('REPORT SUBMITTED', style: AppText.eyebrow),
+              Text('REPORT SUBMITTED', style: AppText.eyebrow),
               const SizedBox(height: 8),
-              const Text('Thanks for speaking up.', style: AppText.h1),
+              Text('Thanks for speaking up.', style: AppText.h1),
               const SizedBox(height: 10),
-              const Text(
+              Text(
                 "Your report has been sent to the campus operations team. "
                 "We'll notify you when its status changes.",
                 style: AppText.body,
@@ -49,13 +49,13 @@ class ReportSuccessScreen extends StatelessWidget {
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(color: AppColors.slate200),
                 ),
                 child: Row(
                   children: [
-                    const Text('Report ID', style: AppText.muted),
+                    Text('Report ID', style: AppText.muted),
                     const Spacer(),
                     Text(shortId,
                         style: const TextStyle(

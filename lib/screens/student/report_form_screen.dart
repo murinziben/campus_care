@@ -21,8 +21,11 @@ import 'report_success_screen.dart';
 /// Two pages with a four-stage progress indicator:
 ///   page 1 = Category + Details, page 2 = Location + Photo + Submit.
 class ReportFormScreen extends StatefulWidget {
-  const ReportFormScreen({super.key, this.existing});
+  const ReportFormScreen({super.key, this.existing, this.initialCategory});
   final Incident? existing;
+
+  /// Pre-selects a category (used by the Home category shortcuts).
+  final IncidentCategory? initialCategory;
 
   @override
   State<ReportFormScreen> createState() => _ReportFormScreenState();
@@ -53,7 +56,9 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
     _description = TextEditingController(text: e?.description ?? '');
     _building = TextEditingController(text: e?.building ?? '');
     _room = TextEditingController(text: e?.room ?? '');
-    _category = e?.category ?? IncidentCategory.facilities;
+    _category = e?.category ??
+        widget.initialCategory ??
+        IncidentCategory.facilities;
     _urgent = e?.isUrgent ?? false;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) context.read<IncidentProvider>().clearActionError();
@@ -102,8 +107,8 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
     try {
       final picked = await ImagePicker().pickImage(
         source: source,
-        maxWidth: 1600,
-        imageQuality: 80,
+        maxWidth: 1280,
+        imageQuality: 70,
       );
       if (picked == null) return;
       final file = File(picked.path);
@@ -214,7 +219,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
           Text(_isEdit ? 'Update your report' : 'Choose a category',
               style: AppText.h2),
           const SizedBox(height: 2),
-          const Text('Select the closest match', style: AppText.muted),
+          Text('Select the closest match', style: AppText.muted),
           const SizedBox(height: 12),
           CategoryPicker(
             selected: _category,
@@ -225,9 +230,9 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
             }),
           ),
           const SizedBox(height: 24),
-          const Text('Incident details', style: AppText.h2),
+          Text('Incident details', style: AppText.h2),
           const SizedBox(height: 2),
-          const Text('Describe what needs attention', style: AppText.muted),
+          Text('Describe what needs attention', style: AppText.muted),
           const SizedBox(height: 12),
           AppTextField(
             label: 'Incident title *',
@@ -253,7 +258,7 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
             child: Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -301,9 +306,9 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text('Location', style: AppText.h2),
+          Text('Location', style: AppText.h2),
           const SizedBox(height: 2),
-          const Text('Help staff find the issue', style: AppText.muted),
+          Text('Help staff find the issue', style: AppText.muted),
           const SizedBox(height: 12),
           AppTextField(
             label: 'Building or area *',
@@ -325,13 +330,13 @@ class _ReportFormScreenState extends State<ReportFormScreen> {
           const SizedBox(height: 24),
           Row(
             children: [
-              const Text('Add a photo', style: AppText.h2),
+              Text('Add a photo', style: AppText.h2),
               const SizedBox(width: 8),
-              const Text('(Optional)', style: AppText.muted),
+              Text('(Optional)', style: AppText.muted),
             ],
           ),
           const SizedBox(height: 2),
-          const Text('A photo can make the issue clearer', style: AppText.muted),
+          Text('A photo can make the issue clearer', style: AppText.muted),
           const SizedBox(height: 12),
           _PhotoSection(
             file: _photo,
@@ -423,7 +428,7 @@ class _StepIndicator extends StatelessWidget {
                     fontWeight:
                         i == activeIndex ? FontWeight.w800 : FontWeight.w500,
                     color: i <= activeIndex
-                        ? AppColors.deepGreen
+                        ? AppColors.slate950
                         : AppColors.slate400,
                   ),
                 ),
@@ -449,20 +454,20 @@ class _Dot extends StatelessWidget {
       width: 28,
       height: 28,
       decoration: BoxDecoration(
-        color: filled ? AppColors.forest : Colors.white,
+        color: filled ? AppColors.forest : AppColors.surface,
         shape: BoxShape.circle,
         border: Border.all(
             color: filled ? AppColors.forest : AppColors.slate300, width: 1.6),
       ),
       child: Center(
         child: done
-            ? const Icon(Icons.check_rounded, size: 16, color: Colors.white)
+            ? Icon(Icons.check_rounded, size: 16, color: AppColors.ink)
             : Text(
                 '$number',
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
-                  color: filled ? Colors.white : AppColors.slate400,
+                  color: filled ? AppColors.ink : AppColors.slate400,
                 ),
               ),
       ),
@@ -497,7 +502,7 @@ class _PhotoSection extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppRadius.card),
             border: Border.all(color: AppColors.forest.withValues(alpha: 0.45)),
           ),
-          child: const Column(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.photo_camera_outlined,
@@ -505,7 +510,7 @@ class _PhotoSection extends StatelessWidget {
               SizedBox(height: 8),
               Text('Take or upload a photo',
                   style: TextStyle(
-                      fontWeight: FontWeight.w700, color: AppColors.deepGreen)),
+                      fontWeight: FontWeight.w700, color: AppColors.slate950)),
               SizedBox(height: 2),
               Text('JPG or PNG, up to 5 MB', style: AppText.muted),
             ],

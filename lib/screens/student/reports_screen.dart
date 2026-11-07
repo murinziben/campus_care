@@ -92,7 +92,7 @@ class _ReportsScreenState extends State<ReportsScreen> {
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 hintText: 'Search reports by title, place or ID',
-                prefixIcon: const Icon(Icons.search_rounded,
+                prefixIcon: Icon(Icons.search_rounded,
                     color: AppColors.slate400),
                 suffixIcon: p.search.isEmpty
                     ? null
@@ -233,11 +233,11 @@ class _StatusChip extends StatelessWidget {
         onSelected: (_) => onTap(),
         showCheckmark: false,
         selectedColor: AppColors.forest,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         labelStyle: TextStyle(
           fontWeight: FontWeight.w700,
           fontSize: 12.5,
-          color: selected ? Colors.white : AppColors.slate700,
+          color: selected ? AppColors.ink : AppColors.slate700,
         ),
         side: BorderSide(
             color: selected ? AppColors.forest : AppColors.slate200),
@@ -260,9 +260,9 @@ class _FilterSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Filter & sort', style: AppText.h2),
+            Text('Filter & sort', style: AppText.h2),
             const SizedBox(height: 18),
-            const Text('CATEGORY', style: AppText.eyebrow),
+            Text('CATEGORY', style: AppText.eyebrow),
             const SizedBox(height: 10),
             Wrap(
               spacing: 8,
@@ -285,7 +285,7 @@ class _FilterSheet extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 20),
-            const Text('SORT BY', style: AppText.eyebrow),
+            Text('SORT BY', style: AppText.eyebrow),
             const SizedBox(height: 10),
             Wrap(
               spacing: 8,
