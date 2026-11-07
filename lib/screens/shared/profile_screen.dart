@@ -5,6 +5,7 @@ import '../../core/theme.dart';
 import '../../models/enums.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/incident_provider.dart';
+import '../../providers/theme_provider.dart';
 import '../../widgets/common.dart';
 
 /// Profile tab shared by students and staff (staff see queue stats instead).
@@ -76,7 +77,7 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           const SizedBox(height: 22),
-          const Text('ACCOUNT', style: AppText.eyebrow),
+          Text('ACCOUNT', style: AppText.eyebrow),
           const SizedBox(height: 8),
           _SettingTile(
             icon: Icons.person_outline_rounded,
@@ -91,15 +92,15 @@ class ProfileScreen extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Personal information', style: AppText.h2),
+                    Text('Personal information', style: AppText.h2),
                     const SizedBox(height: 16),
-                    const Text('NAME', style: AppText.eyebrow),
+                    Text('NAME', style: AppText.eyebrow),
                     Text(user.displayName, style: AppText.body),
                     const SizedBox(height: 12),
-                    const Text('EMAIL', style: AppText.eyebrow),
+                    Text('EMAIL', style: AppText.eyebrow),
                     Text(user.email, style: AppText.body),
                     const SizedBox(height: 12),
-                    const Text('ROLE', style: AppText.eyebrow),
+                    Text('ROLE', style: AppText.eyebrow),
                     Text(user.isStaff ? 'Campus staff' : 'Student',
                         style: AppText.body),
                   ],
@@ -132,6 +133,10 @@ class ProfileScreen extends StatelessWidget {
             },
           ),
           const SizedBox(height: 22),
+          Text('APPEARANCE', style: AppText.eyebrow),
+          const SizedBox(height: 8),
+          const _AppearancePicker(),
+          const SizedBox(height: 22),
           OutlinedButton.icon(
             onPressed: () async {
               final auth = context.read<AuthProvider>();
@@ -149,14 +154,14 @@ class ProfileScreen extends StatelessWidget {
             style: OutlinedButton.styleFrom(
               minimumSize: const Size.fromHeight(50),
               foregroundColor: AppColors.red,
-              side: const BorderSide(color: AppColors.slate200),
-              backgroundColor: Colors.white,
+              side: BorderSide(color: AppColors.slate200),
+              backgroundColor: AppColors.surface,
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(13)),
             ),
           ),
           const SizedBox(height: 14),
-          const Center(
+          Center(
               child: Text('CampusCare · Version 1.0.0', style: AppText.muted)),
         ],
       ),
@@ -176,12 +181,12 @@ class _Impact extends StatelessWidget {
       child: Column(
         children: [
           Text(value,
-              style: const TextStyle(
+              style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w800,
                   color: AppColors.forest)),
           const SizedBox(height: 2),
-          Text(label, style: const TextStyle(fontSize: 11, color: AppColors.slate500)),
+          Text(label, style: TextStyle(fontSize: 11, color: AppColors.slate500)),
         ],
       ),
     );
@@ -229,8 +234,41 @@ class _SettingTile extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(Icons.chevron_right_rounded, color: AppColors.slate400),
+          Icon(Icons.chevron_right_rounded, color: AppColors.slate400),
         ],
+      ),
+    );
+  }
+}
+
+/// System / Light / Dark switch.
+class _AppearancePicker extends StatelessWidget {
+  const _AppearancePicker();
+
+  @override
+  Widget build(BuildContext context) {
+    final mode = context.watch<ThemeProvider>().mode;
+    return SizedBox(
+      width: double.infinity,
+      child: SegmentedButton<ThemeMode>(
+        showSelectedIcon: false,
+        segments: const [
+          ButtonSegment(
+              value: ThemeMode.system,
+              icon: Icon(Icons.brightness_auto_rounded, size: 18),
+              label: Text('System')),
+          ButtonSegment(
+              value: ThemeMode.light,
+              icon: Icon(Icons.light_mode_outlined, size: 18),
+              label: Text('Light')),
+          ButtonSegment(
+              value: ThemeMode.dark,
+              icon: Icon(Icons.dark_mode_outlined, size: 18),
+              label: Text('Dark')),
+        ],
+        selected: {mode},
+        onSelectionChanged: (s) =>
+            context.read<ThemeProvider>().setMode(s.first),
       ),
     );
   }

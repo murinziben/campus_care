@@ -90,7 +90,7 @@ class IncidentOverview extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('About this report', style: AppText.h3),
+              Text('About this report', style: AppText.h3),
               const SizedBox(height: 8),
               Text(incident.description, style: AppText.body),
             ],
@@ -117,7 +117,7 @@ class _InfoTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(AppRadius.field),
         border: Border.all(color: AppColors.slate200),
       ),
@@ -139,7 +139,7 @@ class _InfoTile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(label,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontSize: 10.5, color: AppColors.slate500)),
                 Text(value,
                     maxLines: 1,
@@ -190,7 +190,7 @@ class _ProgressSectionState extends State<ProgressSection> {
         children: [
           Row(
             children: [
-              const Expanded(
+              Expanded(
                   child: Text('Resolution progress', style: AppText.h3)),
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
@@ -198,7 +198,7 @@ class _ProgressSectionState extends State<ProgressSection> {
                   color: AppColors.green50,
                   borderRadius: BorderRadius.circular(99),
                 ),
-                child: const Text('Live updates',
+                child: Text('Live updates',
                     style: TextStyle(
                         fontSize: 10.5,
                         fontWeight: FontWeight.w700,
@@ -239,17 +239,17 @@ class StaffNoteCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.support_agent_rounded,
+              Icon(Icons.support_agent_rounded,
                   size: 18, color: AppColors.forest),
               const SizedBox(width: 8),
-              const Text('Campus team update',
+              Text('Campus team update',
                   style: TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 13,
                       color: AppColors.forest)),
               const Spacer(),
               Text(Formatters.friendlyDate(incident.updatedAt),
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontSize: 11, color: AppColors.forest)),
             ],
           ),
