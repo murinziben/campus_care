@@ -156,7 +156,7 @@ class _ManageIncidentScreenState extends State<ManageIncidentScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Row(
+                  Row(
                     children: [
                       Icon(Icons.admin_panel_settings_outlined,
                           size: 20, color: AppColors.forest),
@@ -165,7 +165,7 @@ class _ManageIncidentScreenState extends State<ManageIncidentScreen> {
                     ],
                   ),
                   const SizedBox(height: 4),
-                  const Text('Only authorized staff can change this.',
+                  Text('Only authorized staff can change this.',
                       style: AppText.muted),
                   const SizedBox(height: 14),
                   for (final s in IncidentStatus.values)
@@ -236,7 +236,7 @@ class _StatusOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         decoration: BoxDecoration(
-          color: selected ? status.background : Colors.white,
+          color: selected ? status.background : AppColors.surface,
           borderRadius: BorderRadius.circular(13),
           border: Border.all(
               color: selected ? status.color : AppColors.slate200,
@@ -259,7 +259,7 @@ class _StatusOption extends StatelessWidget {
                       color: selected ? status.color : AppColors.slate700)),
             ),
             if (current)
-              const Text('Current',
+              Text('Current',
                   style: TextStyle(fontSize: 11, color: AppColors.slate500)),
           ],
         ),
@@ -283,7 +283,7 @@ class _History extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('Staff activity', style: AppText.h3),
+              Text('Staff activity', style: AppText.h3),
               const SizedBox(height: 10),
               for (final u in items)
                 Padding(

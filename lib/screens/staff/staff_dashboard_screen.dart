@@ -61,7 +61,7 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
           children: [
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -110,7 +110,7 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
             const SizedBox(height: 16),
             TextField(
               onChanged: (v) => setState(() => _search = v),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: 'Search report ID, issue or location',
                 prefixIcon:
                     Icon(Icons.search_rounded, color: AppColors.slate400),
@@ -153,11 +153,11 @@ class _StaffDashboardScreenState extends State<StaffDashboardScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Text(_sort.label,
-                            style: const TextStyle(
+                            style: TextStyle(
                                 color: AppColors.forest,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 13)),
-                        const Icon(Icons.expand_more_rounded,
+                        Icon(Icons.expand_more_rounded,
                             color: AppColors.forest, size: 18),
                       ],
                     ),
