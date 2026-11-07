@@ -28,24 +28,24 @@ class VerifyEmailScreen extends StatelessWidget {
                   color: AppColors.lightGreen,
                   borderRadius: BorderRadius.circular(28),
                 ),
-                child: const Icon(Icons.mark_email_unread_outlined,
+                child: Icon(Icons.mark_email_unread_outlined,
                     size: 42, color: AppColors.forest),
               ),
               const SizedBox(height: 26),
-              const Text('ONE LAST STEP', style: AppText.eyebrow),
+              Text('ONE LAST STEP', style: AppText.eyebrow),
               const SizedBox(height: 8),
-              const Text('Check your inbox', style: AppText.h1),
+              Text('Check your inbox', style: AppText.h1),
               const SizedBox(height: 10),
-              const Text('We sent a verification link to',
+              Text('We sent a verification link to',
                   style: AppText.body, textAlign: TextAlign.center),
               const SizedBox(height: 4),
               Text(
                 auth.email,
-                style: const TextStyle(
+                style: TextStyle(
                     fontWeight: FontWeight.w800, color: AppColors.forest),
               ),
               const SizedBox(height: 8),
-              const Text(
+              Text(
                 'Open the email and tap the link. It may take a minute to arrive.',
                 style: AppText.body,
                 textAlign: TextAlign.center,
@@ -84,11 +84,11 @@ class VerifyEmailScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(14),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(14),
                   border: Border.all(color: AppColors.slate200),
                 ),
-                child: const Row(
+                child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Icon(Icons.schedule_rounded,

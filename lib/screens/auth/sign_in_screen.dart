@@ -71,15 +71,15 @@ class _SignInScreenState extends State<SignInScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text('Welcome Back',
+                    Text('Welcome Back',
                         style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                             color: AppColors.forest)),
                     const SizedBox(height: 2),
-                    const Text('Sign in to CampusCare', style: AppText.h1),
+                    Text('Sign in to CampusCare', style: AppText.h1),
                     const SizedBox(height: 6),
-                    const Text(
+                    Text(
                         'Use your verified university account to continue.',
                         style: AppText.body),
                     const SizedBox(height: 22),
@@ -129,7 +129,7 @@ class _SignInScreenState extends State<SignInScreen> {
                         color: AppColors.lightGreen,
                         borderRadius: BorderRadius.circular(AppRadius.field),
                       ),
-                      child: const Row(
+                      child: Row(
                         children: [
                           Icon(Icons.verified_user_outlined,
                               size: 22, color: AppColors.forest),
@@ -140,7 +140,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               'campus community secure.',
                               style: TextStyle(
                                   fontSize: 12.5,
-                                  color: AppColors.deepGreen,
+                                  color: AppColors.slate700,
                                   height: 1.35),
                             ),
                           ),
@@ -151,7 +151,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const Text('New to CampusCare?', style: AppText.muted),
+                        Text('New to CampusCare?', style: AppText.muted),
                         TextButton(
                           onPressed: () =>
                               Navigator.of(context).pushNamed('/register'),

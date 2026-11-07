@@ -66,11 +66,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('JOIN THE COMMUNITY', style: AppText.eyebrow),
+                Text('JOIN THE COMMUNITY', style: AppText.eyebrow),
                 const SizedBox(height: 8),
-                const Text('Create your account', style: AppText.h1),
+                Text('Create your account', style: AppText.h1),
                 const SizedBox(height: 8),
-                const Text(
+                Text(
                   'Your reports help make campus safer and better for everyone.',
                   style: AppText.body,
                 ),
@@ -141,7 +141,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('Already have an account?', style: AppText.muted),
+                    Text('Already have an account?', style: AppText.muted),
                     TextButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: const Text('Sign in'),
