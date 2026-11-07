@@ -10,5 +10,5 @@ class AppConstants {
   static const allowedDomains = [studentDomain, staffDomain];
 
   static const minPasswordLength = 8;
-  static const maxPhotoBytes = 5 * 1024 * 1024; // mirrors storage.rules
+  static const maxPhotoBytes = 5 * 1024 * 1024; // checked in the app before upload
 }
